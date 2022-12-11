@@ -3,6 +3,7 @@ const cors = require('cors');
 var mongoose = require('mongoose')
 // var unitsRouter = require('./routes/units');
 var userRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get('/', (req, res, next) => {
 
 //API's
 app.use('/users', userRouter)
+app.use('/admins', adminRouter)
 // app.use('/units', unitRouter)
 
 

@@ -3,8 +3,10 @@ var bcrypt = require("bcrypt");
 const userModel = require("../models/User");
 var jwt = require("jsonwebtoken")
 const userAuth = require('../middlewares/userAuth')
+const adminAuth = require('../middlewares/adminAuth')
+
 require('dotenv').config();
-const { addUser, loginUser, getUser, deleteUser, updateUser } = require('../controllers/userControl')
+const { addUser, loginUser, getUser, deleteUser, updateUser, getAllUsers } = require('../controllers/userControl')
 
 
 const router = express.Router();
@@ -21,6 +23,7 @@ router.post("/", addUser);
 // login User
 router.post("/login", loginUser);
 
+router.get("/", adminAuth, getAllUsers);
 
 
 // get User by its ID
@@ -31,7 +34,7 @@ router.get("/", userAuth, getUser);
 router.patch("/:id", userAuth, updateUser);
 
 // Delete User by its ID
-router.delete("/:id", userAuth, deleteUser);
+router.delete("/:id", adminAuth, deleteUser);
 
 
 
