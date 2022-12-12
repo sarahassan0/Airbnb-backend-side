@@ -1,45 +1,57 @@
 const UnitModel = require('../models/Unit');
 
 
-function localize(localizedUnit, originalUnit){
+function localize(localizedUnit, originalUnit) {
     let unit = Object.assign({}, localizedUnit);
     unit.images = originalUnit.images
     unit.date = originalUnit.date,
-    unit.pricePerNight = originalUnit.pricePerNight;
-    unit.guestsNumber= originalUnit.guestsNumber;
+        unit.pricePerNight = originalUnit.pricePerNight;
+    unit.guestsNumber = originalUnit.guestsNumber;
     unit.numberOfRates = originalUnit.numberOfRates;
     unit.hostLang = originalUnit.hostLang;
-    unit.catId = originalUnit.catId;
+    unit.catName = originalUnit.catName;
     unit.id = originalUnit._id
     unit.navigation = originalUnit.navigation
+    unit.host = originalUnit.host
     return unit
 }
 
-const  getAllUnits = async (lang)=>{
-    let units = await UnitModel.find();
+const getAllUnits = async (lang) => {
+    let units = await UnitModel.find().populate('host');
+    console.log(units);
     let localizedUnits;
-    if(lang === 'ar'){
-        localizedUnits = units.map((unit)=>localize(unit.ArabicUnit,unit))
-    }else if(lang === 'en'){
-        localizedUnits = units.map((unit)=>localize(unit.EnglishUnit, unit))
+    if (lang === 'ar') {
+        localizedUnits = units.map((unit) => localize(unit.ArabicUnit, unit))
+
+    } else if (lang === 'en') {
+        localizedUnits = units.map((unit) => localize(unit.EnglishUnit, unit))
     }
     return localizedUnits;
 }
 
-const getUnitUnitById = async (id, lang)=>{
+const getUnitUnitById = async (id, lang) => {
     let unit = await UnitModel.findById(id);
     let arabicUnit = unit.ArabicUnit;
     let englishUnit = unit.EnglishUnit;
-    if(lang === 'ar'){
+    if (lang === 'ar') {
         return localize(arabicUnit, unit);
-    }else if(lang === 'en'){
+    } else if (lang === 'en') {
         return localize(englishUnit, unit)
     };
 }
 
 
-const getUnitByCatId = (catId)=>{
-    return UnitModel.find({catId})
+const getUnitByCatId = async (catName, lang) => {
+    let localizedUnits;
+    let units = await UnitModel.find({ 'catName': catName })
+    if (lang === 'ar') {
+        console.log(units);
+        localizedUnits = units.map((unit) => localize(unit.ArabicUnit, unit))
+
+    } else if (lang === 'en') {
+        localizedUnits = units.map((unit) => localize(unit.EnglishUnit, unit))
+    }
+    return localizedUnits;
 }
 
 
@@ -66,39 +78,44 @@ const getUnitByCatId = (catId)=>{
 //     // }
 // }
 
-const getUnitByHostLang =(lang)=>{
-    return UnitModel.find({hostLang: lang})
+const getUnitByHostLang = (lang) => {
+    return UnitModel.find({ hostLang: lang })
 }
 
-const getUnitByAdvantages =(advantages)=>{
-    return UnitModel.find({advantages})
+const getUnitByAdvantages = (advantages) => {
+    return UnitModel.find({ advantages })
 }
 
-const getUnitByPropertyType = (unitType)=>{
-    return UnitModel.find({unitType})
+const getUnitByPropertyType = (unitType) => {
+    return UnitModel.find({ unitType })
 }
 
-const getUnitByPlaceType = (placeType)=>{
-    return UnitModel.find({placeType})
+const getUnitByPlaceType = (placeType) => {
+    return UnitModel.find({ placeType })
 }
 // Ending search layers
 
 
-const deleteUnitById = (id)=>{
-    return UnitModel.findOneAndDelete({id})
+const deleteUnitById = (id) => {
+    console.log(id);
+    return UnitModel.findOneAndDelete(id)
 }
 
-const addNewUnit = (unit)=>{
-    return UnitModel.create(unit)
+const addNewUnit = (u) => {
+    console.log(3333333333);
+    const unit = UnitModel.create(u)
+    console.log(unit);
+    return unit
 }
 
 
-module.exports = {getAllUnits,
-    getUnitUnitById, 
-    getUnitByCatId, 
-    getUnitByAdvantages, 
-    getUnitByHostLang, 
-    getUnitByPlaceType, 
+module.exports = {
+    getAllUnits,
+    getUnitUnitById,
+    getUnitByCatId,
+    getUnitByAdvantages,
+    getUnitByHostLang,
+    getUnitByPlaceType,
     getUnitByPropertyType,
     deleteUnitById,
     addNewUnit

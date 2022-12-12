@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require('cors');
 var mongoose = require('mongoose')
-// var unitsRouter = require('./routes/units');
+var unitRouter = require('./routes/unit');
 var userRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -12,7 +13,7 @@ app.use(express.json())
 app.use(cors())
 
 // Connecting to local DB 
-mongoose.connect('mongodb://localhost:27017').then(() => {
+mongoose.connect(`${process.env.DB_BaseURL}`).then(() => {
     console.log("Database Connected");
 }).catch((err) => {
     throw new Error(err);
@@ -26,7 +27,8 @@ app.get('/', (req, res, next) => {
 
 //API's
 app.use('/users', userRouter)
-// app.use('/units', unitRouter)
+app.use('/admins', adminRouter)
+app.use('/units', unitRouter)
 
 
 app.use("*", function (req, res, next) {
