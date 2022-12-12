@@ -27,8 +27,10 @@ router.get('/', async function (req, res) {
 
 
 router.get('/:id', async function (req, res) {
+    let lang = req.query.lang || 'en'
+
     try {
-        res.json(await getUnitUnitById(req.params.id, 'en'))
+        res.json(await getUnitUnitById(req.params.id, lang))
     } catch (err) {
         res.status(404).json("err")
     }
