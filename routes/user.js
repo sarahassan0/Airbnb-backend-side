@@ -23,11 +23,13 @@ router.post("/", addUser);
 // login User
 router.post("/login", loginUser);
 
-router.get("/", adminAuth, getAllUsers);
-
-
 // get User by its ID
 router.get("/", userAuth, getUser);
+
+
+router.get("/all", adminAuth, getAllUsers);
+
+
 
 
 // Update User by its ID

@@ -6,6 +6,7 @@ dotenv.config();
 
 function userAuth(req, res, next) {
     const token = req.headers.authorization
+
     jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
         if (decoded) {
             req.userID = decoded.data.userID

@@ -18,7 +18,6 @@ function localize(localizedUnit, originalUnit) {
 
 const getAllUnits = async (lang) => {
     let units = await UnitModel.find().populate('host');
-    console.log(units);
     let localizedUnits;
     if (lang === 'ar') {
         localizedUnits = units.map((unit) => localize(unit.ArabicUnit, unit))
@@ -30,7 +29,7 @@ const getAllUnits = async (lang) => {
 }
 
 const getUnitUnitById = async (id, lang) => {
-    let unit = await UnitModel.findById(id);
+    let unit = await UnitModel.findById(id).populate('host');
     let arabicUnit = unit.ArabicUnit;
     let englishUnit = unit.EnglishUnit;
     if (lang === 'ar') {
