@@ -50,7 +50,7 @@ const UnitSchema = mongoose.Schema({
         },
         unitType: { type: String, required: true },
         placeType: { type: String, required: true, enum: ['Entire place', 'Shared room', 'Private room'] },
-        advantages: [{ type: String, required: true }],
+        advantages: [{title:String, icon:String}],
         about: [
             {
                 head: String,
@@ -84,7 +84,10 @@ const UnitSchema = mongoose.Schema({
     images: [{ type: String, required: true }],
     host: { type: mongoose.Types.ObjectId, ref: 'User' },
     hostLang: { type: String, required: true },
-    catName: { type: String, required: true }
+    catName: { type: String, required: true },
+    rooms:{type:Number},
+    bathrooms:{type:Number},
+    beds:{type:Number}
 })
 
 const UnitModel = mongoose.model('Unit', UnitSchema);

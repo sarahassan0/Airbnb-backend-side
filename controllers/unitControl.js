@@ -5,7 +5,7 @@ function localize(localizedUnit, originalUnit) {
     let unit = Object.assign({}, localizedUnit);
     unit.images = originalUnit.images
     unit.date = originalUnit.date,
-        unit.pricePerNight = originalUnit.pricePerNight;
+    unit.pricePerNight = originalUnit.pricePerNight;
     unit.guestsNumber = originalUnit.guestsNumber;
     unit.numberOfRates = originalUnit.numberOfRates;
     unit.hostLang = originalUnit.hostLang;
@@ -13,6 +13,9 @@ function localize(localizedUnit, originalUnit) {
     unit.id = originalUnit._id
     unit.navigation = originalUnit.navigation
     unit.host = originalUnit.host
+    unit.rooms = originalUnit.rooms
+    unit.bathrooms = originalUnit.bathrooms
+    unit.beds = originalUnit.beds
     return unit
 }
 
@@ -21,7 +24,6 @@ const getAllUnits = async (lang) => {
     let localizedUnits;
     if (lang === 'ar') {
         localizedUnits = units.map((unit) => localize(unit.ArabicUnit, unit))
-
     } else if (lang === 'en') {
         localizedUnits = units.map((unit) => localize(unit.EnglishUnit, unit))
     }
@@ -77,6 +79,25 @@ const getUnitByCatId = async (catName, lang) => {
 //     // }
 // }
 
+const fiterUnits = async (query, lang) => {
+    let queryObj ={...query}
+    const excludeFeilds = ['lang', 'catName']
+    excludeFeilds.forEach(element => {
+        delete queryObj[element]
+    });
+    let queryStr = JSON.stringify(queryObj)
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt|or|in|all|and)\b/g, match=>`$${match}`)
+    queryStr= JSON.parse(queryStr)
+    let filteredUnits = await UnitModel.find(queryStr)
+    let localizedUnits;
+    if (lang === 'ar') {
+        localizedUnits = filteredUnits.map((unit) => localize(unit.ArabicUnit, unit))
+    } else if (lang === 'en') {
+        localizedUnits = filteredUnits.map((unit) => localize(unit.EnglishUnit, unit))
+    }
+    return localizedUnits;
+}
+
 const getUnitByHostLang = (lang) => {
     return UnitModel.find({ hostLang: lang })
 }
@@ -117,5 +138,6 @@ module.exports = {
     getUnitByPlaceType,
     getUnitByPropertyType,
     deleteUnitById,
-    addNewUnit
+    addNewUnit,
+    fiterUnits
 }

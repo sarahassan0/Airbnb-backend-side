@@ -11,6 +11,7 @@ const { getAllUnits,
     getUnitByPropertyType,
     deleteUnitById,
     addNewUnit,
+    fiterUnits
 } = require('../controllers/unitControl');
 
 
@@ -56,14 +57,15 @@ router.delete('/:id', adminAuth, async function (req, res) {
 });
 
 
-// router.get('/search', async function(req, res){
-//     try{
-//         // res.json(req.query)
-//         let query = await req.query;
-//     }catch(err){
-//         res.json('err')
-//     }
-// })
+router.get('/search/query', async function(req, res){
+    let lang = req.query.lang || 'en'
+    try{
+        let filteredUnits = await fiterUnits(req.query, lang)
+        res.json(filteredUnits)
+    }catch(err){
+        res.json(err.message)
+    }
+})
 
 router.post('/', async function (req, res) {
     try {
