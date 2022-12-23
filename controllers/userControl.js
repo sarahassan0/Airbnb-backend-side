@@ -66,7 +66,6 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
     // const _id = req.params.id;
     try {
-        console.log(333333333333333);
         if (req.userID) {
             let user = await userModel.findById(req.userID)   //.populate('orders');
             res.status(200).json(user);

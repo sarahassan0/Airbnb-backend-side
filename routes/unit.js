@@ -57,12 +57,12 @@ router.delete('/:id', adminAuth, async function (req, res) {
 });
 
 
-router.get('/search/query', async function(req, res){
+router.get('/search/query', async function (req, res) {
     let lang = req.query.lang || 'en'
-    try{
+    try {
         let filteredUnits = await fiterUnits(req.query, lang)
         res.json(filteredUnits)
-    }catch(err){
+    } catch (err) {
         res.json(err.message)
     }
 })
@@ -70,7 +70,9 @@ router.get('/search/query', async function(req, res){
 router.post('/', async function (req, res) {
     try {
         let unit = req.body;
+
         console.log(unit);
+        console.log(333333);
         res.json(await addNewUnit(unit))
     } catch (err) {
         res.status(err.statusCode).json(err)

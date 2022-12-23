@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 var mongoose = require('mongoose')
 var unitRouter = require('./routes/unit');
+var tempUnitRouter = require('./routes/tempUnit');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 const dotenv = require('dotenv');
@@ -29,6 +30,9 @@ app.get('/', (req, res, next) => {
 app.use('/users', userRouter)
 app.use('/admins', adminRouter)
 app.use('/units', unitRouter)
+app.use('/tempUnits', tempUnitRouter);
+
+
 
 
 app.use("*", function (req, res, next) {
