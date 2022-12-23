@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
 var unitRouter = require('./routes/unit');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
+var reservationRouter = require('./routes/reservation');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.get('/', (req, res, next) => {
 app.use('/users', userRouter)
 app.use('/admins', adminRouter)
 app.use('/units', unitRouter)
+app.use('/reservations', reservationRouter)
 
 
 app.use("*", function (req, res, next) {
