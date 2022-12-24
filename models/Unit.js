@@ -12,28 +12,15 @@ const UnitSchema = mongoose.Schema({
         },
         location: {
             country: { type: String, required: true },
-            city: { type: String, required: true },
+            state: { type: String, required: true },
+            city: { type: String },
         },
         unitType: { type: String, required: true },
-        placeType: { type: String, enum: ['مكان خاص', "غرفة مشتركة", "غرفة خاصة"] },
-        advantages: [{ type: String, required: true }],
-        about: [
-            {
-                head: String,
-                subHead: String,
-                icon: String
-            },
-            {
-                head: String,
-                subHead: String,
-                icon: String
-            },
-            {
-                head: String,
-                subHead: String,
-                icon: String
-            }
-        ]
+        placeType: { type: String },
+        advantages: {
+            type: Array,
+            _id: false,
+        },
     },
     EnglishUnit: {
         title: {
@@ -46,48 +33,36 @@ const UnitSchema = mongoose.Schema({
         },
         location: {
             country: { type: String, required: true },
-            city: { type: String, required: true },
+            state: { type: String, required: true },
+            city: { type: String },
         },
         unitType: { type: String, required: true },
-        placeType: { type: String, required: true, enum: ['Entire place', 'Shared room', 'Private room'] },
-        advantages: [{title:String, icon:String}],
-        about: [
-            {
-                head: String,
-                subHead: String,
-                icon: String
-            },
-            {
-                head: String,
-                subHead: String,
-                icon: String
-            },
-            {
-                head: String,
-                subHead: String,
-                icon: String
-            }
-        ]
+        placeType: { type: String, required: true },
+        advantages: {
+            type: Array,
+            _id: false,
+        },
     },
     date: {
-        start: String,
-        end: String
+        start: Date,
+        end: Date
     },
     rate: {
         type: String,
-        required: true
+        // required: true
     },
     navigations: { Latitude: Number, Longitude: Number },
-    numberOfRates: { type: Number, required: true },
+    // numberOfRates: { type: Number, required: true },
     pricePerNight: { type: Number, required: true },
     guestsNumber: { type: Number, required: true },
     images: [{ type: String, required: true }],
     host: { type: mongoose.Types.ObjectId, ref: 'User' },
     hostLang: { type: String, required: true },
     catName: { type: String, required: true },
-    rooms:{type:Number},
-    bathrooms:{type:Number},
-    beds:{type:Number}
+    bedrooms: { type: Number },
+    bathrooms: { type: Number },
+    beds: { type: Number },
+    available: { type: Boolean, default: true },
 })
 
 const UnitModel = mongoose.model('Unit', UnitSchema);

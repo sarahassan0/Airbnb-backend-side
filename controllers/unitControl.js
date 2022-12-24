@@ -5,7 +5,7 @@ function localize(localizedUnit, originalUnit) {
     let unit = Object.assign({}, localizedUnit);
     unit.images = originalUnit.images
     unit.date = originalUnit.date,
-    unit.pricePerNight = originalUnit.pricePerNight;
+        unit.pricePerNight = originalUnit.pricePerNight;
     unit.guestsNumber = originalUnit.guestsNumber;
     unit.numberOfRates = originalUnit.numberOfRates;
     unit.hostLang = originalUnit.hostLang;
@@ -13,7 +13,7 @@ function localize(localizedUnit, originalUnit) {
     unit.id = originalUnit._id
     unit.navigation = originalUnit.navigation
     unit.host = originalUnit.host
-    unit.rooms = originalUnit.rooms
+    unit.bedrooms = originalUnit.bedrooms
     unit.bathrooms = originalUnit.bathrooms
     unit.beds = originalUnit.beds
     return unit
@@ -80,14 +80,14 @@ const getUnitByCatId = async (catName, lang) => {
 // }
 
 const fiterUnits = async (query, lang) => {
-    let queryObj ={...query}
+    let queryObj = { ...query }
     const excludeFeilds = ['lang', 'catName']
     excludeFeilds.forEach(element => {
         delete queryObj[element]
     });
     let queryStr = JSON.stringify(queryObj)
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt|or|in|all|and)\b/g, match=>`$${match}`)
-    queryStr= JSON.parse(queryStr)
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt|or|in|all|and)\b/g, match => `$${match}`)
+    queryStr = JSON.parse(queryStr)
     let filteredUnits = await UnitModel.find(queryStr)
     let localizedUnits;
     if (lang === 'ar') {
@@ -121,9 +121,9 @@ const deleteUnitById = (id) => {
     return UnitModel.findOneAndDelete(id)
 }
 
-const addNewUnit = (u) => {
+const addNewUnit = async (u) => {
     console.log(3333333333);
-    const unit = UnitModel.create(u)
+    const unit = await UnitModel.create(u)
     console.log(unit);
     return unit
 }
