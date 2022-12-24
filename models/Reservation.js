@@ -10,7 +10,7 @@ const reservationSchema = mongoose.Schema(
         unit:
         {
             type: mongoose.Schema.ObjectId,
-            ref: "Product",
+            ref: "Unit",
             required: true,
         },
         date: {

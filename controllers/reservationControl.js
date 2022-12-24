@@ -10,8 +10,7 @@ const addReservation = async (req, res, next) => {
             console.log(req.userID);
 
             res.status(401).json("Unauthorized User");
-        }
-        else if (
+        } else if (
             !reservation.unit ||
             !reservation.date ||
             !reservation.numberOfDays ||
@@ -21,9 +20,7 @@ const addReservation = async (req, res, next) => {
             !reservation.payerEmail
         ) {
             res.status(400).json("Fields Required");
-
-        }
-        else {
+        } else {
             let completedReservation = await reservationModel.create(reservation);
             res.status(201).json(completedReservation);
         }
@@ -32,4 +29,77 @@ const addReservation = async (req, res, next) => {
     }
 };
 
-module.exports = { addReservation };
+const getReservations = async (req, res, next) => {
+    console.log(new Date());
+    let lang = req.query.lang || "en";
+    const { user } = req.body;
+    try {
+        if (!req.userID || !user || req.userID !== user) {
+            console.log("mmmmmmmm",req.userID);
+            console.log("mmmm",user);
+
+
+            res.status(401).json("1111111Unauthorized User");
+        } else {
+            console.log({ user });
+            let allReservation = await reservationModel
+                .find({ user: user })
+                .populate("unit");
+            let resReservations;
+            if (lang === "ar") {
+                resReservations = allReservation.map((reserve) => {
+                    return {
+                        _id: reserve._id,
+                        user: reserve.user,
+                        date: reserve.date,
+                        numberOfDays: reserve.numberOfDays,
+                        pricePerNight: reserve.pricePerNight,
+                        totalPrice: reserve.totalPrice,
+                        paymentId: reserve.paymentId,
+                        payerEmail: reserve.payerEmail,
+                        unit: {
+                            _id: reserve.unit._id,
+                            images: reserve.unit.images,
+                            host: reserve.unit.host,
+                            hostLang: reserve.unit.hostLang,
+                            location: reserve.unit.ArabicUnit.location,
+                            title: reserve.unit.ArabicUnit.title,
+                            unitType: reserve.unit.ArabicUnit.unitType,
+                            placeType: reserve.unit.ArabicUnit.placeType,
+                            rate: reserve.unit.rate,
+                        }
+                    };
+                });
+            } else if (lang === "en") {
+                resReservations = allReservation.map((reserve) => {
+                    return {
+                        _id: reserve._id,
+                        user: reserve.user,
+                        date: reserve.date,
+                        numberOfDays: reserve.numberOfDays,
+                        pricePerNight: reserve.pricePerNight,
+                        totalPrice: reserve.totalPrice,
+                        paymentId: reserve.paymentId,
+                        payerEmail: reserve.payerEmail,
+                        unit: {
+                            _id: reserve.unit._id,
+                            images: reserve.unit.images,
+                            host: reserve.unit.host,
+                            hostLang: reserve.unit.hostLang,
+                            location: reserve.unit.EnglishUnit.location,
+                            title: reserve.unit.EnglishUnit.title,
+                            unitType: reserve.unit.EnglishUnit.unitType,
+                            placeType: reserve.unit.EnglishUnit.placeType,
+                            rate: reserve.unit.rate,
+                        }
+                    };
+                });
+            }
+            res.status(201).json(resReservations);
+        }
+    } catch (err) {
+        res.status(400).json(`Unable to complete reservation . Error: ${err}`);
+    }
+};
+
+module.exports = { addReservation, getReservations };
