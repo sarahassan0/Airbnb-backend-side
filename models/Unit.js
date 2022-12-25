@@ -44,8 +44,8 @@ const UnitSchema = mongoose.Schema({
         },
     },
     date: {
-        start: Date,
-        end: Date
+        start: String,
+        end: String
     },
     rate: {
         type: String,
