@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const adminAuth = require('../middlewares/adminAuth')
 
+
 const { getAllUnits,
     getUnitUnitById,
     getUnitByCatId,
@@ -16,7 +17,6 @@ const { getAllUnits,
 
 
 
-
 router.get('/', async function (req, res) {
     let lang = req.query.lang || 'en'
     try {
@@ -25,6 +25,8 @@ router.get('/', async function (req, res) {
         res.status(404).json(err)
     }
 });
+
+
 
 
 router.get('/:id', async function (req, res) {
@@ -70,7 +72,6 @@ router.get('/search/query', async function (req, res) {
 router.post('/', async function (req, res) {
     try {
         let unit = req.body;
-
         console.log(unit);
         console.log(333333);
         res.json(await addNewUnit(unit))
