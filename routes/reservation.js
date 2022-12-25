@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.post("/", userAuth, addReservation);
-router.get("/", getReservations);
+router.get("/", userAuth, getReservations);
 
 
 module.exports = router;

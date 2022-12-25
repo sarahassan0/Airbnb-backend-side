@@ -32,18 +32,10 @@ const addReservation = async (req, res, next) => {
 const getReservations = async (req, res, next) => {
     console.log(new Date());
     let lang = req.query.lang || "en";
-    const { user } = req.body;
     try {
-        if (!req.userID || !user || req.userID !== user) {
-            console.log("mmmmmmmm",req.userID);
-            console.log("mmmm",user);
-
-
-            res.status(401).json("1111111Unauthorized User");
-        } else {
-            console.log({ user });
+        {
             let allReservation = await reservationModel
-                .find({ user: user })
+                .find({ user: req.userID })
                 .populate("unit");
             let resReservations;
             if (lang === "ar") {
