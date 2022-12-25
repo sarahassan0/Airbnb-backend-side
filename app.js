@@ -15,12 +15,18 @@ app.use(express.json())
 app.use(cors())
 
 // Connecting to local DB 
-mongoose.connect(`${process.env.DB_BaseURL}`).then(() => {
+// mongoose.connect(`${process.env.DB_BaseURL}`).then(() => {
+//     console.log("Database Connected");
+// }).catch((err) => {
+//     throw new Error(err);
+// });
+
+
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@airbnb-database.rtchlri.mongodb.net/?retryWrites=true&w=majority`).then(() => {
     console.log("Database Connected");
 }).catch((err) => {
     throw new Error(err);
 });
-
 
 // main root
 app.get('/', (req, res, next) => {
