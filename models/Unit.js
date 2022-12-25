@@ -44,8 +44,8 @@ const UnitSchema = mongoose.Schema({
         },
     },
     date: {
-        start: String,
-        end: String
+        start: Date,
+        end: Date
     },
     rate: {
         type: String,
@@ -61,7 +61,8 @@ const UnitSchema = mongoose.Schema({
     catName: { type: String, required: true },
     bedrooms: { type: Number },
     bathrooms: { type: Number },
-    beds: { type: Number }
+    beds: { type: Number },
+    available: { type: Boolean, default: true },
 })
 
 const UnitModel = mongoose.model('Unit', UnitSchema);

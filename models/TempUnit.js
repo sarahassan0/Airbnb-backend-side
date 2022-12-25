@@ -19,8 +19,8 @@ const tempUnitSchema = mongoose.Schema({
     placeType: { type: String, required: true },
     advantages: [{ title: String, icon: String, _id: false, }],
     date: {
-        start: String,
-        end: String
+        start: Date,
+        end: Date
     },
     pricePerNight: { type: Number, required: true },
     guestsNumber: { type: Number, required: true },
@@ -30,6 +30,7 @@ const tempUnitSchema = mongoose.Schema({
     bathrooms: { type: Number, required: true },
     beds: { type: Number, required: true },
     images: [{ type: String, }],
+    available: { type: Boolean, default: true },
 })
 
 const TempUnitModel = mongoose.model('TempUnit', tempUnitSchema);

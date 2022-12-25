@@ -5,6 +5,7 @@ var unitRouter = require('./routes/unit');
 var tempUnitRouter = require('./routes/tempUnit');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
+var reservationRouter = require('./routes/reservation');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.get('/', (req, res, next) => {
 app.use('/users', userRouter)
 app.use('/admins', adminRouter)
 app.use('/units', unitRouter)
+app.use('/reservations', reservationRouter)
 app.use('/tempUnits', tempUnitRouter);
 
 
