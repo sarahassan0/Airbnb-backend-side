@@ -1,4 +1,5 @@
 const reservationModel = require("../models/Reservation");
+const UnitModel = require('../models/Unit');
 
 const addReservation = async (req, res, next) => {
     console.log(new Date());
@@ -22,6 +23,7 @@ const addReservation = async (req, res, next) => {
             res.status(400).json("Fields Required");
         } else {
             let completedReservation = await reservationModel.create(reservation);
+            await UnitModel.findByIdAndUpdate(reservation.unit, { available: false })
             res.status(201).json(completedReservation);
         }
     } catch (err) {

@@ -16,6 +16,7 @@ function localize(localizedUnit, originalUnit) {
     unit.bedrooms = originalUnit.bedrooms
     unit.bathrooms = originalUnit.bathrooms
     unit.beds = originalUnit.beds
+    unit.available = originalUnit.available
     return unit
 }
 
