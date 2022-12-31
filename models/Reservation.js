@@ -45,7 +45,8 @@ const reservationSchema = mongoose.Schema(
         },
         payerEmail: {
             type: String, required: true,
-        }
+        },
+        captureId:{type:String, required: true}
     },
     { timestamp: true }
 );
