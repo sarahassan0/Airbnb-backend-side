@@ -5,7 +5,7 @@ function localize(localizedUnit, originalUnit) {
     let unit = Object.assign({}, localizedUnit);
     unit.images = originalUnit.images
     unit.date = originalUnit.date,
-        unit.pricePerNight = originalUnit.pricePerNight;
+    unit.pricePerNight = originalUnit.pricePerNight;
     unit.guestsNumber = originalUnit.guestsNumber;
     unit.numberOfRates = originalUnit.numberOfRates;
     unit.hostLang = originalUnit.hostLang;
@@ -17,6 +17,9 @@ function localize(localizedUnit, originalUnit) {
     unit.bathrooms = originalUnit.bathrooms
     unit.beds = originalUnit.beds
     unit.available = originalUnit.available
+    unit.reviews = originalUnit.reviews
+    unit.numberOfRates = originalUnit.numberOfRates
+    unit.avgRating = originalUnit.avgRating
     return unit
 }
 
@@ -35,7 +38,7 @@ const getAllUnits = async (lang) => {
 }
 
 const getUnitUnitById = async (id, lang) => {
-    let unit = await UnitModel.findById(id).populate('host');
+    let unit = await UnitModel.findById(id).populate(['host', 'reviews']);
     let arabicUnit = unit.ArabicUnit;
     let englishUnit = unit.EnglishUnit;
     if (lang === 'ar') {
@@ -59,29 +62,6 @@ const getUnitByCatId = async (catName, lang) => {
     return localizedUnits;
 }
 
-
-// const getUnitFiltered = (query)=>{
-//     if(query.lang === "ar"){
-//         let advantages=["wifi", "hair dryer", "kitchen", "tv", "heating", "washing machine", "dryer","iron", "air conditioning", "dedicated workspace"]
-//         if(query.advantages){
-//             advantages= query.advantages.split("%")
-//         }
-//         let filterQuery = Object.assign({}, query);
-//         filterQuery.advantages = advantages;
-//     }
-//     else if(query.lang==="ar"){
-//         // return UnitModel.find({"ArabicUnit.pricePerNight":{ $gt: min, $lt: max}, "ArabicUnit.advantages":advTitles, "ArabicUnit.palceType":placeType, "ArabicUnit.unitType":unitType, hostLang:hostLang, catId:catId})
-//         let advantages = ["واي فاي", "مطبخ", "تلفاز", "تدفئة", "غسالة", "نشافة", "مكوى", "مكيف", "مساحة مخصصة للعمل", "مجفف شعر"]
-//         if(query.advantages){
-//             advantages= query.advantages.split("%")
-//         }
-//         let filterQuery = Object.assign({}, query);
-//         filterQuery.advantages = advantages;
-//     }
-//     // }else if (query.lang === 'en'){
-//     //     return UnitModel.find({"EnglishUnit.pricePerNight":{ $gt: min, $lt: max}, "EnglishUnit.advantages":advTitles, "EnglishUnit.palceType":placeType, "EnglishUnit.unitType":unitType, hostLang:hostLang, catId:catId,})
-//     // }
-// }
 
 const fiterUnits = async (query, lang) => {
     let queryObj = { ...query }
