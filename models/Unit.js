@@ -52,9 +52,9 @@ const UnitSchema = mongoose.Schema({
         // required: true
     },
     navigations: { Latitude: Number, Longitude: Number },
-    numberOfRates: { type: Number, required: true },
-    avgRating:{type:Number},
-    sumOfRates: { type: Number },
+    numberOfRates: { type: Number, required: true ,default: 0 },
+    avgRating:{type:Number,default:1},
+    sumOfRates: { type: Number ,default: 0 },
     reviews: [{ type: mongoose.Types.ObjectId, ref: "Review" }],
     pricePerNight: { type: Number, required: true },
     guestsNumber: { type: Number, required: true },
