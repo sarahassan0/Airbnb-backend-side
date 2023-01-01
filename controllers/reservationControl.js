@@ -18,7 +18,8 @@ const addReservation = async (req, res, next) => {
             !reservation.pricePerNight ||
             !reservation.totalPrice ||
             !reservation.paymentId ||
-            !reservation.payerEmail
+            !reservation.payerEmail ||
+            !reservation.captureId
         ) {
             res.status(400).json("Fields Required");
         } else {
@@ -51,6 +52,7 @@ const getReservations = async (req, res, next) => {
                         totalPrice: reserve.totalPrice,
                         paymentId: reserve.paymentId,
                         payerEmail: reserve.payerEmail,
+                        captureId: reserve.captureId,
                         unit: {
                             _id: reserve.unit._id,
                             images: reserve.unit.images,
@@ -75,6 +77,7 @@ const getReservations = async (req, res, next) => {
                         totalPrice: reserve.totalPrice,
                         paymentId: reserve.paymentId,
                         payerEmail: reserve.payerEmail,
+                        captureId: reserve.captureId,
                         unit: {
                             _id: reserve.unit._id,
                             images: reserve.unit.images,
@@ -96,4 +99,20 @@ const getReservations = async (req, res, next) => {
     }
 };
 
-module.exports = { addReservation, getReservations };
+const deleteReservation = async (req, res, next) => {
+    const _id = req.params.id;
+    try {
+        let reservation = await reservationModel.findById(_id)
+        console.log(reservation.user, "   == ",req.userID)
+        if (reservation.user == req.userID) {
+            let reservation1 = await reservationModel.findByIdAndDelete(_id)
+            await UnitModel.findByIdAndUpdate(reservation.unit, { available: true })
+
+            res.status(200).json('reservation has been deleted');
+        } else res.status(403).json(`this user cannot cancel this reservation`);
+    } catch (err) {
+        res.status(400).json(`Cannot delete User with ID ${_id}.Error: ${err} `);
+    }
+
+}
+module.exports = { addReservation, getReservations, deleteReservation };
