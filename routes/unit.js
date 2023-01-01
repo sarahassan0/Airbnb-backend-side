@@ -51,6 +51,7 @@ router.get('/category/:catName', async function (req, res) {
 });
 
 router.delete('/:id', adminAuth, async function (req, res) {
+    console.log({ 'rrr': req.params.id });
     try {
         res.json(await deleteUnitById(req.params.id))
     } catch (err) {

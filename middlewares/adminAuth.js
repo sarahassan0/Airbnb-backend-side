@@ -7,7 +7,7 @@ require('dotenv').config();
 
 function adminAuth(req, res, next) {
     const token = req.headers.authorization
-    console.log(token);
+    console.log({ 'token': token });
     jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
         if (decoded) {
             req.adminID = decoded.data.adminID

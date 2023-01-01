@@ -14,7 +14,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// Connecting to local DB 
+//Connecting to local DB
 // mongoose.connect(`${process.env.DB_BaseURL}`).then(() => {
 //     console.log("Database Connected");
 // }).catch((err) => {

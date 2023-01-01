@@ -122,7 +122,7 @@ const getUnitByPlaceType = (placeType) => {
 
 const deleteUnitById = (id) => {
     console.log(id);
-    return UnitModel.findOneAndDelete(id)
+    return UnitModel.findByIdAndDelete(id)
 }
 
 const addNewUnit = async (u) => {
