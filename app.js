@@ -1,8 +1,12 @@
 const express = require("express");
 const cors = require('cors');
 var mongoose = require('mongoose')
-// var unitsRouter = require('./routes/units');
+var unitRouter = require('./routes/unit');
+var tempUnitRouter = require('./routes/tempUnit');
 var userRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
+var reservationRouter = require('./routes/reservation');
+var reveiwRouter = require('./routes/review')
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -11,13 +15,19 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// Connecting to local DB 
-mongoose.connect(`${process.env.DB_BaseURL}`).then(() => {
+//Connecting to local DB
+// mongoose.connect(`${process.env.DB_BaseURL}`).then(() => {
+//     console.log("Database Connected");
+// }).catch((err) => {
+//     throw new Error(err);
+// });
+
+
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@airbnb-database.rtchlri.mongodb.net/?retryWrites=true&w=majority`).then(() => {
     console.log("Database Connected");
 }).catch((err) => {
     throw new Error(err);
 });
-
 
 // main root
 app.get('/', (req, res, next) => {
@@ -26,7 +36,13 @@ app.get('/', (req, res, next) => {
 
 //API's
 app.use('/users', userRouter)
-// app.use('/units', unitRouter)
+app.use('/admins', adminRouter)
+app.use('/units', unitRouter)
+app.use('/reservations', reservationRouter)
+app.use('/tempUnits', tempUnitRouter);
+app.use('/review', reveiwRouter);
+
+
 
 
 app.use("*", function (req, res, next) {
