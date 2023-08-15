@@ -5,7 +5,7 @@ function localize(localizedUnit, originalUnit) {
     let unit = Object.assign({}, localizedUnit);
     unit.images = originalUnit.images
     unit.date = originalUnit.date,
-    unit.pricePerNight = originalUnit.pricePerNight;
+        unit.pricePerNight = originalUnit.pricePerNight;
     unit.guestsNumber = originalUnit.guestsNumber;
     unit.numberOfRates = originalUnit.numberOfRates;
     unit.hostLang = originalUnit.hostLang;
@@ -106,7 +106,6 @@ const deleteUnitById = (id) => {
 }
 
 const addNewUnit = async (u) => {
-    console.log(3333333333);
     const unit = await UnitModel.create(u)
     console.log(unit);
     return unit

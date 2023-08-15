@@ -60,8 +60,6 @@ const userSchema = mongoose.Schema({
 
 //hashing password before send it to DB
 userSchema.pre("save", function (next) {
-
-    // this step could be implemented in the route
     const salt = bcrypt.genSaltSync(15);
     const hashedPass = bcrypt.hashSync(this.password, salt);
     this.password = hashedPass
@@ -69,8 +67,6 @@ userSchema.pre("save", function (next) {
 })
 
 userSchema.pre("update", function (next) {
-
-    // this step could be implemented in the route
     const salt = bcrypt.genSaltSync(15);
     const hashedPass = bcrypt.hashSync(this.password, salt);
     this.password = hashedPass
